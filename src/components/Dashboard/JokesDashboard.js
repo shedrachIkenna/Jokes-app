@@ -2,8 +2,12 @@ import React, { Component } from 'react'
 import Ratings from './Ratings'
 import JokesList from '../jokes/JokesList'
 import { connect } from 'react-redux'
+import { fetchJokes } from '../../store/actions/JokesAction'
 
 class JokesDashboard extends Component {
+    componentDidMount() {
+        this.props.displayJoke();
+    }
     render () {
         // console.log(this.props)
         const { jokes } = this.props
@@ -23,9 +27,16 @@ class JokesDashboard extends Component {
 }
 
 const mapStateToProps = (state) => {
+    // console.log(state)
     return {
         jokes: state.jokes.jokes
     }
 }
 
-export default connect(mapStateToProps)(JokesDashboard);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        displayJoke: () => {dispatch(fetchJokes())}
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(JokesDashboard);
